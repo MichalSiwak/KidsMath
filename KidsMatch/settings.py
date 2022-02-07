@@ -30,8 +30,6 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = os.environ['SECRET_KEY']
 
 
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -48,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sitepanel',
+    'verify_email.apps.VerifyEmailConfig',
+    'match_exercises',
 ]
 
 MIDDLEWARE = [
@@ -116,21 +116,51 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_URL = '/static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = 'App name <noreply@example.com>'
+
+
+# email verification
+EXPIRE_AFTER = '1h'
+SUBJECT = 'Witaj w mojej aplikacji'
+HTML_MESSAGE_TEMPLATE = 'email_template.html'
+VERIFICATION_SUCCESS_TEMPLATE = None
+VERIFICATION_FAILED_TEMPLATE = "failed.html"
+LINK_EXPIRED_TEMPLATE = "link_expired_template.html"
+VERIFICATION_SUCCESS_MSG = 'Twój adres e-mail został pomyślnie zweryfikowany, a konto zostało aktywowane. ' \
+                           'Możesz teraz zalogować się przy użyciu danych logowania...'
+VERIFICATION_FAILED_MSG = 'Coś jest nie tak z tym linkiem, nie można zweryfikować użytkownika...'
+REQUEST_NEW_LINK = "link_expired_template.html"
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

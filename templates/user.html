@@ -18,11 +18,6 @@
                                         <div class="table has-background-grey-light">
                                             <div class="content">
                                                 <div class="columns">
-                                                    <div class="column is-one-third">
-                                                        <div class="column">
-                                                            <img src="{{ form.profile_picture.url }}" alt="Zdjęcie profilowe2" style="width:100px;height:150px">
-                                                        </div>
-                                                    </div>
                                                     <div class="column">
                                                         <table class="table has-background-grey-light">
                                                             <tr>
@@ -33,6 +28,9 @@
                                                                 <td>Nazwisko:</td>
                                                                 <td>{{ form.last_name }}</td>
                                                             </tr>
+
+                                                            {% if user.parent %}
+
                                                             <tr>
                                                                 <td>e-mail:</td>
                                                                 <td>{{ form.email }}</td>
@@ -43,6 +41,16 @@
                                                                 <a class="button is-black is-small" href="/edit_profile">Edytuj</a>
                                                             </div>
                                                         </div>
+                                                        <div class="columns">
+                                                            <div class="column is-half">
+                                                                <a class="button is-black is-small" href="/kids">Dzieci</a>
+                                                            </div>
+                                                        </div>
+                                                        {% else %}
+
+                                                        </table>
+
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="field">

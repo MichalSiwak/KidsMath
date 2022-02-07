@@ -17,19 +17,9 @@
                                     <div class="container ">
                                         <div class="table has-background-grey-light">
                                             <div class="content">
-                                                <div class="columns">
-<!--                                                    <div class="column is-one-third">-->
-<!--                                                        <div class="column">-->
-<!--                                                            <div class="file-label">-->
-<!--                                                                <img src="{{ user.profile_picture.url }}" alt="Zdjęcie profilowe2" style="width:100px;height:150px">-->
-<!--                                                                <input class="file-input" type="file" name="profile_picture">-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                        <div style="text-align:center">-->
-<!--                                                            <span class="content is-small">Wybierz zdjęcie</span>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-                                                    <div class="column">
+
+                                                                                    <table class="table has-background-grey-light">
+                                                                                                                                                    <tr>
                                                         <table class="table has-background-grey-light">
                                                             {% for field in form %}
                                                             <tr>
@@ -44,16 +34,16 @@
                                                             </tr>
                                                             {% endfor %}
                                                         </table>
-                                                    </div>
-                                                </div>
+
+
+
+
                                                 <div class="columns">
-                                                    <div class="column is-one-third">
-                                                        <a class="button is-black is-small" href="/edit_profile/edit_password">Edutuj hasło</a>
-                                                    </div>
-                                                    <div class="column">
+                                                    <div class="column is-half">
                                                         <button class="button is-black is-small" type="submit">Zatwierdź zmiany</button>
-                                                    </div>
                                                 </div>
+                                            </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -66,17 +56,6 @@
                                 </div>
                             </div>
                         </div>
-                        {% if messages %}
-                        <div class="container">
-                            <article class="message">
-                                {% for message in messages %}
-                                <div class="message-body">
-                                    {{ message }}
-                                </div>
-                                {% endfor %}
-                            </article>
-                        </div>
-                        {% endif %}
                     </form>
                 </div>
                 <div class="column">
@@ -88,7 +67,4 @@
         </div>
     </div>
 </form>
-
-
-
 {% endblock %}

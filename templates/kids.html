@@ -18,8 +18,20 @@
                                         <div class="table has-background-grey-light">
                                             <div class="content">
 
+
+                                                 <table class="table has-background-grey-light">
+
+                                                {% for kid in kids %}
+                                                <tr>
+                                                    <td>{{kid.kids_id.first_name}}</td>
+                                                    <td>{{kid.points}} pkt.</td>
+                                                </tr>
+                                                {% endfor %}
+                                                 </table>
                                                 <div class="columns">
-<button>to tu</button>
+                                                            <div class="column is-half">
+                                                                <a class="button is-black is-small" href="/add_kids">Dodaj ucznia</a>
+                                                            </div>
                                                 </div>
 
                                             </div>

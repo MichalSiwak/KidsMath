@@ -18,6 +18,18 @@
                                         <div class="table has-background-grey-light">
                                             <div class="content">
                                                 <p>Tu będą informacje o aplikacji.</p>
+
+                                                {% if not user_name.parent %}
+                                                Dziecko!!
+
+                                                <div class="columns">
+                                                            <div class="column is-half">
+                                                                <a class="button is-black is-small" href="/category_choice">Do gry</a>
+                                                            </div>
+                                                        </div>
+
+                                                {% endif %}
+
                                             </div>
                                         </div>
                                     </div>

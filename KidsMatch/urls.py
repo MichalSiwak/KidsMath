@@ -14,8 +14,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth import views as auth_views
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from sitepanel.views import *
+from sitepanel.forms import ResetPasswordForm, PasswordResetConfirmForm
 
 urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('reset_password/', auth_views.PasswordResetView.as_view(
+                            template_name='registration/password_reset_form.html',
+                            form_class=ResetPasswordForm), name='reset_password'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+                            template_name='registration/password_reset_confirm.html',
+                            form_class=PasswordResetConfirmForm), name='password_reset_confirm'),
     path('admin/', admin.site.urls),
+    path('test/', TestView.as_view(), name='test'),
+    path('', IndexView.as_view(), name='home'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('user/', UserView.as_view(), name='user'),
+    path('edit_profile/', EditProfileView.as_view(), name='edit_profile'),
+    path('edit_profile/edit_password/', EditPasswordView.as_view(), name='edit_password'),
+    path('verification/', include('verify_email.urls')),
+    path('kids/', KidsView.as_view(), name='kids'),
+    path('add_kids/', AddKidsView.as_view(), name='add_kids'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
