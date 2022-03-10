@@ -19,12 +19,34 @@
                                             <div class="content">
 
                                                 <div class="columns">
+<table class="$table-foot-cell-color">
+    <tr>
+        <td>Kategoria: </td>
 
+        <td>
+            {{ form.as_p }}
+        </td>
 
-                                                    {{ task }}
+    </tr>
+    <tr>
+        <td>Ilość: </td>
+        <td><input class="input is-primary" type="number" min="2" max="100" value="2" name="amount"></td>
+    </tr>
+        <tr>
+        <td>Zakres: </td>
+            <td></td>
 
-<input type="number" name="result">
-    <button type="submit">Sprawdź</button>
+    </tr>
+        <tr>
+        <td>od: <input class="input is-primary" type="number" value="1" name="from"></td>
+        <td>do: <input class="input is-primary" type="number" value="10" name="to"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><button class="button is-black" type="submit">Zatwierdź</button></td>
+    </tr>
+</table>
+
 
 
                                                 </div>

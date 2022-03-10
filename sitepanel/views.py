@@ -64,11 +64,7 @@ class RegisterView(View):
         messages.success(request, 'Rejestracja przebiegła prawidłowo. Sprawdź skrzynkę mailową. '
                                'Otrzymałeś link aktywacyjny.')
 
-
-
         return redirect('login')
-
-
 
 
 class LoginView(View):
