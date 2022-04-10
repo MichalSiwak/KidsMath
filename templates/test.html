@@ -18,16 +18,17 @@
                                         <div class="table has-background-grey-light">
                                             <div class="content">
 
+
+                                                {% for operation in operations %}
                                                 <div class="columns">
 
-
-                                                    {{ task }}
-
-<input type="number" name="result">
-    <button type="submit">Sprawdź</button>
-
+                                                        {{ operation }}
+                                                        <input type="number" name="results">
 
                                                 </div>
+                                                {% endfor %}
+
+                                                        <button type="submit">Sprawdź</button>
                                             </div>
                                         </div>
                                     </div>

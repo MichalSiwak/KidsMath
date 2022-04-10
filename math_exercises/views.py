@@ -37,8 +37,9 @@ class PlayView(View):
         if category == 1:
             adds = Adds(quantity, range_from, range_to)
             numbers = adds.draw_numbers()
-            task = adds.get_task()
-            return render(request, 'test.html', {'task': task})
+            operations = adds.get_operations()
+            return render(request, 'test.html', {'operations': operations})
+
         elif category == 2:
             print('-')
         elif category == 3:
@@ -51,9 +52,10 @@ class PlayView(View):
         return render(request, 'test.html')
 
     def post(self, request, **kwargs):
-        result = request.POST['result']
-        print(result)
-        # adds.checking_results(result)
+        print(request)
+        results = request.POST.getlist('results')
+        print(results)
+        print(w)
         return redirect('category')
 
 

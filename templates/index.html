@@ -19,6 +19,7 @@
                                             <div class="content">
                                                 <p>Tu będą informacje o aplikacji.</p>
 
+                                                {% if user.is_authenticated %}
                                                 {% if not user_name.parent %}
                                                 Dziecko!!
 
@@ -28,6 +29,7 @@
                                                             </div>
                                                         </div>
 
+                                                {% endif %}
                                                 {% endif %}
 
                                             </div>
