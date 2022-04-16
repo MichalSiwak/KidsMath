@@ -3,6 +3,7 @@ from django.core.cache import cache
 from django.views import View
 from math_exercises.exercises import *
 from math_exercises.forms import *
+from sitepanel.models import Kids
 
 
 class MatchTestView(View):
@@ -55,11 +56,16 @@ class PlayView(View):
         return render(request, 'test.html')
 
     def post(self, request, **kwargs):
+        user = request.user.pk
+        kids = Kids.objects.get(kids_id=user)
         numbers = cache.get('numbers')
-        results = request.POST.getlist('results')
-        print(Adds.checking_results(numbers, results))
+        answers = request.POST.getlist('results')
+        results = Adds.checking_results(numbers, answers)
+        points = Adds.add_points(results)
+        kids.set_points(points)
+        kids.save()
 
-        return redirect('category')
+        return redirect('user')
 
 
 

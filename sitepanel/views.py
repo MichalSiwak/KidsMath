@@ -105,7 +105,9 @@ class UserView(LoginRequiredMixin, View):
         user = request.user
         form = User.objects.get(id=user.id)
         is_active = user.is_active
-        return render(request, 'user.html', {'form': form, 'is_active': is_active, 'user': user})
+        if user is not user.parent:
+            kids = Kids.objects.get(kids_id=user)
+        return render(request, 'user.html', {'form': form, 'is_active': is_active, 'user': user, 'kids': kids})
 
 
 class EditProfileView(LoginRequiredMixin, View):
