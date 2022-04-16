@@ -12,7 +12,7 @@ class Adds:
 
     def draw_numbers(self):
         # for _ in range(10):
-        for _ in range(1):
+        for _ in range(2):
             numbers = []
             for i in range(self.quantity):
                 number = random.randint(self.range_from, self.range_to)
@@ -27,14 +27,23 @@ class Adds:
             self.operations.append(operation)
         return self.operations
 
-    # @classmethod
-    def checking_results(self, result):
-        if sum(self.numbers) == result:
-            return True
-        else:
-            return False
+    # def checking_results(self, result):
+    #     if sum(self.numbers) == result:
+    #         return True
+    #     else:
+    #         return False
 
-    def add_points(self, user):
+    @staticmethod
+    def checking_results(numbers, results):
+        results = [int(result) for result in results]
+        number_result = (list(zip(results, numbers)))
+        check_result = []
+        for i in number_result:
+            check_result.append((i[0] == sum(i[1])))
+        return check_result
+
+    @staticmethod
+    def add_points(results):
         pass
 
 

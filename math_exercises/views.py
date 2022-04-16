@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.cache import cache
 from django.views import View
 from math_exercises.exercises import *
 from math_exercises.forms import *
@@ -38,6 +39,8 @@ class PlayView(View):
             adds = Adds(quantity, range_from, range_to)
             numbers = adds.draw_numbers()
             operations = adds.get_operations()
+            cache.set('numbers', numbers)
+            # cache.set('adds', adds)
             return render(request, 'test.html', {'operations': operations})
 
         elif category == 2:
@@ -52,10 +55,10 @@ class PlayView(View):
         return render(request, 'test.html')
 
     def post(self, request, **kwargs):
-        print(request)
+        numbers = cache.get('numbers')
         results = request.POST.getlist('results')
-        print(results)
-        print(w)
+        print(Adds.checking_results(numbers, results))
+
         return redirect('category')
 
 
