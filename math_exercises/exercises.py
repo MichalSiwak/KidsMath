@@ -91,7 +91,6 @@ class Subtracts:
                 check_result.append(False)
         return check_result
 
-
     @staticmethod
     def add_points(results: list):
         points = 0
@@ -130,3 +129,31 @@ class Multiplication:
             operation += ' ='
             self.operations.append(operation)
         return self.operations
+
+    @staticmethod
+    def checking_results(numbers, answers):
+        answers = [int(result) for result in answers]
+        number_result = (list(zip(answers, numbers)))
+        check_result = []
+        for operation in number_result:
+            answer = operation[0]
+            numbers = operation[1][0]
+            for number in operation[1][1:]:
+                numbers *= number
+            if answer == numbers:
+                check_result.append(True)
+            else:
+                check_result.append(False)
+        return check_result
+
+    @staticmethod
+    def add_points(results: list):
+        points = 0
+        for result in results:
+            if result is True:
+                points += 1
+            elif result is False:
+                points -= 1
+        if points < 0:
+            points = 0
+        return points

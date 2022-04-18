@@ -83,7 +83,8 @@ class PlayView(View):
             result = Subtracts.checking_results(numbers, answers)
             points = Subtracts.add_points(result)
         elif category == 3:
-            pass
+            result = Multiplication.checking_results(numbers, answers)
+            points = Multiplication.add_points(result)
         elif category == 4:
             pass
 
