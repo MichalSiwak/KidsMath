@@ -60,9 +60,9 @@ class PlayView(View):
             return render(request, 'test.html', {'operations': operations})
 
         elif category == 4:
-            division = None
-            numbers = None
-            operations = None
+            division = Division(quantity, range_from, range_to)
+            numbers = division.draw_numbers()
+            operations = division.get_operations()
             cache.set('numbers', numbers)
             return render(request, 'test.html', {'operations': operations})
         else:
@@ -86,32 +86,10 @@ class PlayView(View):
             result = Multiplication.checking_results(numbers, answers)
             points = Multiplication.add_points(result)
         elif category == 4:
-            pass
+            result = Division.checking_results(numbers, answers)
+            points = Division.add_points(result)
 
         kids.set_points(points)
         kids.save()
 
         return redirect('user')
-
-
-
-# class PlayView(View):
-#     def get(self, request, *args, **kwargs):
-#         category = kwargs['category']
-#         quantity = int(kwargs['amount'])
-#         range_from = int(kwargs['range_from'])
-#         range_to = int(kwargs['range_to'])
-#         if kwargs['category'] == '1':
-#             lis = Adds(quantity, range_from, range_to)
-#             print(lis.draw_numbers())
-#
-#         elif kwargs['category'] == '2':
-#             print('-')
-#         elif kwargs['category'] == '3':
-#             print('*')
-#         elif kwargs['category'] == '4':
-#             print('/')
-#         else:
-#             print('?')
-#
-#         return render(request, 'test.html')
