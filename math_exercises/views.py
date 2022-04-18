@@ -31,37 +31,62 @@ class CategoryView(View):
 
 
 class PlayView(View):
+
     def get(self, request, *args, **kwargs):
         category = int(kwargs['category'])
         quantity = int(kwargs['amount'])
         range_from = int(kwargs['range_from'])
         range_to = int(kwargs['range_to'])
+
         if category == 1:
             adds = Adds(quantity, range_from, range_to)
             numbers = adds.draw_numbers()
             operations = adds.get_operations()
             cache.set('numbers', numbers)
-            # cache.set('adds', adds)
             return render(request, 'test.html', {'operations': operations})
 
         elif category == 2:
-            print('-')
+            subtracts = Subtracts(quantity, range_from, range_to)
+            numbers = subtracts.draw_numbers()
+            operations = subtracts.get_operations()
+            cache.set('numbers', numbers)
+            return render(request, 'test.html', {'operations': operations})
+
         elif category == 3:
-            print('*')
+            multiplication = Multiplication(quantity, range_from, range_to)
+            numbers = multiplication.draw_numbers()
+            operations = multiplication.get_operations()
+            cache.set('numbers', numbers)
+            return render(request, 'test.html', {'operations': operations})
+
         elif category == 4:
-            print('/')
+            division = None
+            numbers = None
+            operations = None
+            cache.set('numbers', numbers)
+            return render(request, 'test.html', {'operations': operations})
         else:
             print('?')
 
         return render(request, 'test.html')
 
     def post(self, request, **kwargs):
+        category = int(kwargs['category'])
         user = request.user.pk
         kids = Kids.objects.get(kids_id=user)
         numbers = cache.get('numbers')
         answers = request.POST.getlist('results')
-        results = Adds.checking_results(numbers, answers)
-        points = Adds.add_points(results)
+        if category == 1:
+            results = Adds.checking_results(numbers, answers)
+            points = Adds.add_points(results)
+        elif category == 2:
+            result = Subtracts.checking_results(numbers, answers)
+            points = Subtracts.add_points(result)
+        elif category == 3:
+            pass
+        elif category == 4:
+            pass
+
         kids.set_points(points)
         kids.save()
 
