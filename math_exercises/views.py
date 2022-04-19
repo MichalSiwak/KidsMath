@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.views import View
@@ -10,14 +11,16 @@ class MatchTestView(View):
     def get(self, request):
         return render(request, 'test.html')
 
-    def post(self, request):
+    def post(self):
         return redirect('test')
 
 
-class CategoryView(View):
+class CategoryView(LoginRequiredMixin, View):
     def get(self, request):
         form = CategoryForm()
-        return render(request, 'category.html', {'form': form})
+        user = request.user
+        is_active = user.is_active
+        return render(request, 'category.html', {'form': form, 'is_active': is_active})
 
     def post(self, request):
         category = request.POST['category']
@@ -32,43 +35,32 @@ class CategoryView(View):
 
 class PlayView(View):
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
+        user = request.user
+        is_active = user.is_active
         category = int(kwargs['category'])
         quantity = int(kwargs['amount'])
         range_from = int(kwargs['range_from'])
         range_to = int(kwargs['range_to'])
 
         if category == 1:
-            adds = Adds(quantity, range_from, range_to)
-            numbers = adds.draw_numbers()
-            operations = adds.get_operations()
-            cache.set('numbers', numbers)
-            return render(request, 'test.html', {'operations': operations})
+            operation = Add(quantity, range_from, range_to)
 
         elif category == 2:
-            subtracts = Subtracts(quantity, range_from, range_to)
-            numbers = subtracts.draw_numbers()
-            operations = subtracts.get_operations()
-            cache.set('numbers', numbers)
-            return render(request, 'test.html', {'operations': operations})
+            operation = Subtraction(quantity, range_from, range_to)
 
         elif category == 3:
-            multiplication = Multiplication(quantity, range_from, range_to)
-            numbers = multiplication.draw_numbers()
-            operations = multiplication.get_operations()
-            cache.set('numbers', numbers)
-            return render(request, 'test.html', {'operations': operations})
+            operation = Multiplication(quantity, range_from, range_to)
 
         elif category == 4:
-            division = Division(quantity, range_from, range_to)
-            numbers = division.draw_numbers()
-            operations = division.get_operations()
-            cache.set('numbers', numbers)
-            return render(request, 'test.html', {'operations': operations})
+            operation = Division(quantity, range_from, range_to)
         else:
             print('?')
 
-        return render(request, 'test.html')
+        numbers = operation.draw_numbers()
+        operations = operation.get_operations()
+        cache.set('numbers', numbers)
+        return render(request, 'play.html', {'operations': operations, 'is_active': is_active})
 
     def post(self, request, **kwargs):
         category = int(kwargs['category'])
@@ -77,19 +69,15 @@ class PlayView(View):
         numbers = cache.get('numbers')
         answers = request.POST.getlist('results')
         if category == 1:
-            results = Adds.checking_results(numbers, answers)
-            points = Adds.add_points(results)
+            results = Add.checking_results(numbers, answers)
         elif category == 2:
-            result = Subtracts.checking_results(numbers, answers)
-            points = Subtracts.add_points(result)
+            results = Subtraction.checking_results(numbers, answers)
         elif category == 3:
-            result = Multiplication.checking_results(numbers, answers)
-            points = Multiplication.add_points(result)
+            results = Multiplication.checking_results(numbers, answers)
         elif category == 4:
-            result = Division.checking_results(numbers, answers)
-            points = Division.add_points(result)
+            results = Division.checking_results(numbers, answers)
+        points = Operation.add_points(results)
 
         kids.set_points(points)
         kids.save()
-
         return redirect('user')

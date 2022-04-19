@@ -1,7 +1,7 @@
 import random
 
 
-class Operations:
+class Operation:
     def __init__(self, quantity, range_from, range_to):
         self.numbers = None
         self.quantity = quantity
@@ -9,20 +9,10 @@ class Operations:
         self.range_to = range_to
         self.all_numbers = []
         self.operations = []
-
-
-class Adds(Operations):
-    # def __init__(self, quantity, range_from, range_to):
-    #     self.numbers = None
-    #     self.quantity = quantity
-    #     self.range_from = range_from
-    #     self.range_to = range_to
-    #     self.all_numbers = []
-    #     self.operations = []
+        self.operator = ""
 
     def draw_numbers(self):
-        # for _ in range(10):
-        for _ in range(3):
+        for _ in range(10):
             numbers = []
             for i in range(self.quantity):
                 number = random.randint(self.range_from, self.range_to)
@@ -32,19 +22,10 @@ class Adds(Operations):
 
     def get_operations(self):
         for numbers in self.all_numbers:
-            operation = " + ".join(str(i) for i in numbers)
+            operation = self.operator.join(str(i) for i in numbers)
             operation += ' ='
             self.operations.append(operation)
         return self.operations
-
-    @staticmethod
-    def checking_results(numbers, answers):
-        answers = [int(result) for result in answers]
-        number_result = (list(zip(answers, numbers)))
-        check_result = []
-        for i in number_result:
-            check_result.append((i[0] == sum(i[1])))
-        return check_result
 
     @staticmethod
     def add_points(results: list):
@@ -59,31 +40,25 @@ class Adds(Operations):
         return points
 
 
-class Subtracts(Operations):
-    # def __init__(self, quantity, range_from, range_to):
-    #     self.numbers = None
-    #     self.quantity = quantity
-    #     self.range_from = range_from
-    #     self.range_to = range_to
-    #     self.all_numbers = []
-    #     self.operations = []
+class Add(Operation):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator = " + "
 
-    def draw_numbers(self):
-        # for _ in range(10):
-        for _ in range(3):
-            numbers = []
-            for i in range(self.quantity):
-                number = random.randint(self.range_from, self.range_to)
-                numbers.append(number)
-            self.all_numbers.append(numbers)
-        return self.all_numbers
+    @staticmethod
+    def checking_results(numbers, answers):
+        answers = [int(result) for result in answers]
+        number_result = (list(zip(answers, numbers)))
+        check_result = []
+        for i in number_result:
+            check_result.append((i[0] == sum(i[1])))
+        return check_result
 
-    def get_operations(self):
-        for numbers in self.all_numbers:
-            operation = " - ".join(str(i) for i in numbers)
-            operation += ' ='
-            self.operations.append(operation)
-        return self.operations
+
+class Subtraction(Operation):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator = " - "
 
     @staticmethod
     def checking_results(numbers, answers):
@@ -101,44 +76,11 @@ class Subtracts(Operations):
                 check_result.append(False)
         return check_result
 
-    @staticmethod
-    def add_points(results: list):
-        points = 0
-        for result in results:
-            if result is True:
-                points += 1
-            elif result is False:
-                points -= 1
-        if points < 0:
-            points = 0
-        return points
 
-
-class Multiplication(Operations):
-    # def __init__(self, quantity, range_from, range_to):
-    #     self.numbers = None
-    #     self.quantity = quantity
-    #     self.range_from = range_from
-    #     self.range_to = range_to
-    #     self.all_numbers = []
-    #     self.operations = []
-
-    def draw_numbers(self):
-        # for _ in range(10):
-        for _ in range(3):
-            numbers = []
-            for i in range(self.quantity):
-                number = random.randint(self.range_from, self.range_to)
-                numbers.append(number)
-            self.all_numbers.append(numbers)
-        return self.all_numbers
-
-    def get_operations(self):
-        for numbers in self.all_numbers:
-            operation = " * ".join(str(i) for i in numbers)
-            operation += ' ='
-            self.operations.append(operation)
-        return self.operations
+class Multiplication(Operation):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator = " * "
 
     @staticmethod
     def checking_results(numbers, answers):
@@ -156,47 +98,22 @@ class Multiplication(Operations):
                 check_result.append(False)
         return check_result
 
-    @staticmethod
-    def add_points(results: list):
-        points = 0
-        for result in results:
-            if result is True:
-                points += 1
-            elif result is False:
-                points -= 1
-        if points < 0:
-            points = 0
-        return points
 
-
-class Division(Operations):
-    # def __init__(self, quantity, range_from, range_to):
-    #     self.numbers = None
-    #     self.quantity = quantity
-    #     self.range_from = range_from
-    #     self.range_to = range_to
-    #     self.all_numbers = []
-    #     self.operations = []
-
+class Division(Operation):
     def draw_numbers(self):
-        for _ in range(3):
-        # for _ in range(10):
+        for _ in range(10):
             numbers = []
             for i in range(self.quantity):
                 number = random.randint(self.range_from, self.range_to)
                 numbers.append(number)
-            print(numbers)
             for numbers[0] in numbers:
                 numbers[0] = numbers[0] * numbers[1]
             self.all_numbers.append(numbers)
         return self.all_numbers
 
-    def get_operations(self):
-        for numbers in self.all_numbers:
-            operation = " : ".join(str(i) for i in numbers)
-            operation += ' ='
-            self.operations.append(operation)
-        return self.operations
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator = " : "
 
     @staticmethod
     def checking_results(numbers, answers):
@@ -213,15 +130,3 @@ class Division(Operations):
             else:
                 check_result.append(False)
         return check_result
-
-    @staticmethod
-    def add_points(results: list):
-        points = 0
-        for result in results:
-            if result is True:
-                points += 1
-            elif result is False:
-                points -= 1
-        if points < 0:
-            points = 0
-        return points

@@ -32,7 +32,7 @@ urlpatterns = [
                             template_name='registration/password_reset_confirm.html',
                             form_class=PasswordResetConfirmForm), name='password_reset_confirm'),
     path('admin/', admin.site.urls),
-    path('test/', TestView.as_view(), name='test'),
+    # path('test/', TestView.as_view(), name='test'),
     path('', IndexView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),

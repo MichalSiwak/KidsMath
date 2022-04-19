@@ -20,18 +20,5 @@ class Kids(models.Model):
         self.points += point
 
 
-
-
 class ProfileParent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-
-# class ProfileKid(models.Model):
-#     parent = models.ForeignKey(ProfileParent, on_delete=models.CASCADE)
-#     kid = models.ForeignKey(User, on_delete=models.CASCADE)
-#     points = models.IntegerField(default=0)
-#
-
-
-
-# ASDFqwer1234

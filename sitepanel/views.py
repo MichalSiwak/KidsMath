@@ -10,25 +10,11 @@ from verify_email.email_handler import send_verification_email
 from .edit_errors import from_errors_to_list
 
 
-class TestView(View):
-    @staticmethod
-    def get(request):
-        form = RegisterForm()
-        return render(request, 'test.html', {'form': form})
-
-    @staticmethod
-    def post(request):
-        form = RegisterForm(request.POST)
-        print('test')
-        send_verification_email(request, form)
-        return redirect('test')
-
-
 class IndexView(View):
     def get(self, request):
         if request.user.is_authenticated:
             user_name = request.user
-            return render(request, 'index.html', {'user_name': user_name, 'is_active': request.user.is_authenticated})
+            return render(request, 'index.html', {'user_name': user_name})
         else:
             return render(request, 'index.html')
 
@@ -70,12 +56,10 @@ class RegisterView(View):
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-        user = request.user
-        return render(request, 'login.html', {'form': form, 'user': user, 'login': login})
+        return render(request, 'login.html', {'form': form, 'login': login})
 
     def post(self, request):
         form = LoginForm(request.POST)
-
         if form.is_valid():
             user = authenticate(**form.cleaned_data)
 
@@ -104,23 +88,22 @@ class UserView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
         form = User.objects.get(id=user.id)
-        is_active = user.is_active
-        if user is not user.parent:
+        if user.parent is False:
             kids = Kids.objects.get(kids_id=user)
-        return render(request, 'user.html', {'form': form, 'is_active': is_active, 'user': user, 'kids': kids})
+            return render(request, 'user.html', {'form': form, 'kids': kids})
+        return render(request, 'user.html', {'form': form})
 
 
 class EditProfileView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
-        is_active = user.is_active
 
         form = EditProfileForm(initial={"username": user.username,
                                         "first_name": user.first_name,
                                         "last_name": user.last_name,
                                         "email": user.email})
 
-        return render(request, 'edit_profile.html', {'is_active': is_active, 'form': form})
+        return render(request, 'edit_profile.html', {'form': form})
 
     def post(self, request):
         username = request.POST.get('username')
@@ -146,10 +129,8 @@ class EditProfileView(LoginRequiredMixin, View):
 
 class EditPasswordView(LoginRequiredMixin, View):
     def get(self, request):
-        user = request.user
-        is_active = user.is_active
         form = EditPasswordForm(request.user, request.POST)
-        return render(request, 'edit_password.html', {"form": form, "user": user, "is_active": is_active})
+        return render(request, 'edit_password.html', {"form": form})
 
     def post(self, request):
         form = EditPasswordForm(request.user, request.POST)
@@ -169,9 +150,8 @@ class EditPasswordView(LoginRequiredMixin, View):
 class KidsView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
-        is_active = user.is_active
         kids = Kids.objects.filter(user_id=user.id)
-        return render(request, 'kids.html', {"kids": kids, "user": user, "is_active": is_active})
+        return render(request, 'kids.html', {"kids": kids})
 
     def post(self, request):
         form = EditPasswordForm(request.user, request.POST)
@@ -179,10 +159,8 @@ class KidsView(LoginRequiredMixin, View):
 
 class AddKidsView(LoginRequiredMixin, View):
     def get(self, request):
-        user = request.user
-        is_active = user.is_active
         form = AddKidsForm()
-        return render(request, 'add_kids.html', {"form": form, "user": user, "is_active": is_active})
+        return render(request, 'add_kids.html', {"form": form})
 
     def post(self, request):
         form = AddKidsForm(request.POST)
@@ -208,4 +186,3 @@ class AddKidsView(LoginRequiredMixin, View):
             kid.save()
 
         return redirect('kids')
-

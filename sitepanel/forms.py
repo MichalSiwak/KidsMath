@@ -24,7 +24,6 @@ class EditProfileForm(forms.Form):
     username = forms.CharField(label='login')
     first_name = forms.CharField(label='Imię', required=False)
     last_name = forms.CharField(label='Nazwisko', required=False)
-    # email = forms.EmailField(label='e-mail')
 
 
 class RegisterForm(UserCreationForm):
@@ -39,13 +38,6 @@ class RegisterForm(UserCreationForm):
         for myField in self.fields:
             self.fields[myField].widget.attrs['class'] = 'input'
         self.fields['username'].label = 'Login'
-
-    # def clean(self):
-    #     self.cleaned_data = super().clean()
-    #     email = self.cleaned_data.get('email')
-    #     if User.objects.filter(email=email).exists():
-    #         self.add_error('email', 'Istnieje już konto z tym adresem email.')
-    #     return self.cleaned_data
 
 
 class EditPasswordForm(PasswordChangeForm):
@@ -106,10 +98,6 @@ class ChangeEmailForm(ModelForm):
         }))
 
 
-# class KidsForm(forms.Form):
-#     pass
-
-
 class AddKidsForm(RegisterForm):
     class Meta:
         fields = ["username", "first_name", "last_name", "password1", "password2"]
@@ -126,4 +114,3 @@ class AddKidsForm(RegisterForm):
     def save(self, *args, **kwargs):
         self.instance.parent = kwargs.pop('parent', None)
         super(AddKidsForm, self).save(*args, **kwargs)
-
