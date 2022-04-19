@@ -130,3 +130,7 @@ class Division(Operation):
             else:
                 check_result.append(False)
         return check_result
+
+
+class DecimalFractions:
+    pass

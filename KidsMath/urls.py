@@ -16,8 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path, include, re_path
-from django.conf import settings
+from django.urls import path, include
 from django.conf.urls.static import static
 from sitepanel.views import *
 from math_exercises.views import *
@@ -32,7 +31,6 @@ urlpatterns = [
                             template_name='registration/password_reset_confirm.html',
                             form_class=PasswordResetConfirmForm), name='password_reset_confirm'),
     path('admin/', admin.site.urls),
-    # path('test/', TestView.as_view(), name='test'),
     path('', IndexView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
@@ -50,6 +48,7 @@ urlpatterns += [
     path('category_choice/', CategoryView.as_view(), name='category'),
     path('play/(?P<category>[0-9]+)/(?P<amount>[0-9]+)/(?P<range_from>[0-9]+)/(?P<range_to>[0-9]+)/\\Z',
          PlayView.as_view(), name='play'),
+    path('play/decimal_fractions', DecimalFractionsView.as_view(), name='decimal_fractions'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

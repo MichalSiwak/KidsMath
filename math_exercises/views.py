@@ -18,9 +18,7 @@ class MatchTestView(View):
 class CategoryView(LoginRequiredMixin, View):
     def get(self, request):
         form = CategoryForm()
-        user = request.user
-        is_active = user.is_active
-        return render(request, 'category.html', {'form': form, 'is_active': is_active})
+        return render(request, 'category.html', {'form': form})
 
     def post(self, request):
         category = request.POST['category']
@@ -28,7 +26,7 @@ class CategoryView(LoginRequiredMixin, View):
         range_from = int(request.POST['from'])
         range_to = int(request.POST['to'])
         if category == '5':
-            return redirect('category')
+            return redirect('decimal_fractions')
         else:
             return redirect('play', category, amount, range_from, range_to)
 
@@ -36,8 +34,6 @@ class CategoryView(LoginRequiredMixin, View):
 class PlayView(View):
 
     def get(self, request, **kwargs):
-        user = request.user
-        is_active = user.is_active
         category = int(kwargs['category'])
         quantity = int(kwargs['amount'])
         range_from = int(kwargs['range_from'])
@@ -60,7 +56,7 @@ class PlayView(View):
         numbers = operation.draw_numbers()
         operations = operation.get_operations()
         cache.set('numbers', numbers)
-        return render(request, 'play.html', {'operations': operations, 'is_active': is_active})
+        return render(request, 'play.html', {'operations': operations})
 
     def post(self, request, **kwargs):
         category = int(kwargs['category'])
@@ -81,3 +77,21 @@ class PlayView(View):
         kids.set_points(points)
         kids.save()
         return redirect('user')
+
+
+class DecimalFractionsView(View):
+    def get(self, request):
+        form = CategoryDecimalFractionsForm()
+        return render(request, 'decimal_fractions.html', {'form': form})
+
+    def post(self, request):
+        category = request.POST['category']
+        if category == '1':
+            print(category)
+        elif category == '2':
+            print(category)
+        elif category == '3':
+            print(category)
+        elif category == '4':
+            print(category)
+        return redirect('decimal_fractions')
