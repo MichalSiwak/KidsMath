@@ -46,9 +46,10 @@ urlpatterns = [
 
 urlpatterns += [
     path('category_choice/', CategoryView.as_view(), name='category'),
-    path('play/(?P<category>[0-9]+)/(?P<amount>[0-9]+)/(?P<range_from>[0-9]+)/(?P<range_to>[0-9]+)/\\Z',
+    path('play/(?P<category>[0-9]+)/(?P<operations>[0-9]+)/(?P<range_from>[0-9]+)/(?P<range_to>[0-9]+)/\\Z',
          PlayView.as_view(), name='play'),
-    path('play/decimal_fractions', DecimalFractionsView.as_view(), name='decimal_fractions'),
+
+    path('testm/', MatchTestView.as_view()),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
