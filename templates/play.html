@@ -25,9 +25,17 @@
                                                         <td class="content">
                                                             {{ operation }}
                                                         </td>
-                                                        <td class="content">
-                                                            <input class="input is-small" type="number" name="results">
-                                                        </td>
+                            <td class="content">
+                                {% if operation_type == 'total' %}
+                                <input class="input is-small" type="number" name="results">
+                                {% elif operation_type == 'decimal' %}
+                                <input class="input is-small" type="number" name="results" step="0.01">
+                                {% elif operation_type == 'fraction' %}
+                        <input class="form-control" type="text" name="numerator" style="width: 3em;">
+                                <a>/</a>
+                        <input class="form-control" type="number" name="denominator" style="width: 3em;">
+                                {% endif %}
+                            </td>
                                                     </tr>
                                                     {% endfor %}
                                                 </table>
