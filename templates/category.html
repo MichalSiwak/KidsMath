@@ -19,6 +19,7 @@
                                             <div class="content">
 
                                                 <div class="columns">
+
 <table class="$table-foot-cell-color">
     <tr>
         <td>Kategoria: </td>
@@ -28,10 +29,6 @@
         </td>
 
     </tr>
-<!--    <tr>-->
-<!--        <td>Ilość: </td>-->
-<!--        <td><input class="input is-primary" type="number" min="2" max="100" value="2" name="amount"></td>-->
-<!--    </tr>-->
         <tr>
         <td>Zakres: </td>
             <td></td>
@@ -45,8 +42,28 @@
         <td></td>
         <td><button class="button is-black" type="submit">Zatwierdź</button></td>
     </tr>
-</table>
 
+<!--    <tr>-->
+               {% if messages %}
+    <tr><td>
+        <div class="container">
+            <article class="message">
+                {% for message in messages %}
+                <div class="message-body">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </article>
+        </div>
+        {% endif %}
+        </td></tr>
+<!--    </tr>-->
+<!--<tr>-->
+<!--    <td>-->
+<!--    lkjhgfdfghj-->
+<!--    </td>-->
+<!--</tr>-->
+</table>
 
 
                                                 </div>

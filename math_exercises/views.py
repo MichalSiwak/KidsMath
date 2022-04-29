@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.views import View
@@ -32,12 +33,15 @@ class CategoryView(LoginRequiredMixin, View):
 
 
 class PlayView(View):
-
     def get(self, request, **kwargs):
         category = int(kwargs['category'])
         typ_of_operations = int(kwargs['operations'])
         range_from = int(kwargs['range_from'])
         range_to = int(kwargs['range_to'])
+        if range_to - range_from < 9:
+            print(range_to - range_from)
+            messages.warning(request, 'Zbyt mały zakres')
+            return redirect('category')
 
         if category == 1:
             operation_type = 'total'
@@ -60,6 +64,7 @@ class PlayView(View):
                 operation = FractionMultiplication(range_from, range_to)
             else:
                 operation = FractionDivision(range_from, range_to)
+
         else:
             operation_type = 'decimal'
             if typ_of_operations == 1:
@@ -95,14 +100,8 @@ class PlayView(View):
             else:
                 results = FractionDivision.checking_results(numbers, numerator, denominator)
         else:
-            if operations == 1:
-                results = Add.checking_results(numbers, answers)
-            elif operations == 2:
-                results = Subtraction.checking_results(numbers, answers)
-            elif operations == 3:
-                results = Multiplication.checking_results(numbers, answers)
-            else:
-                results = Division.checking_results(numbers, answers)
+            results = Operation.checking_results(numbers, answers, operations)
+
         points = Operation.add_points(results)
 
         kids.set_points(points)
