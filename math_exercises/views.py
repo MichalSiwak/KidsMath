@@ -10,8 +10,8 @@ from sitepanel.models import Kids
 
 class MatchTestView(View):
     def get(self, request):
-        operation = FractionAdd(1,10)
-        numbers = operation.draw_numbers()
+        operation = FractionAdd(1, 10)
+        # numbers = operation.draw_numbers()
         operations = operation.get_operations()
         return render(request, 'test.html', {'operations': operations})
 
@@ -92,13 +92,13 @@ class PlayView(View):
         denominator = request.POST.getlist('denominator')
         if category == 2:
             if operations == 1:
-                results = FractionAdd.checking_results(numbers, numerator, denominator)
+                results = FractionAdd.checking_results(numbers, numerator, denominator, operations)
             elif operations == 2:
-                results = FractionSubtraction.checking_results(numbers, numerator, denominator)
+                results = FractionSubtraction.checking_results(numbers, numerator, denominator, operations)
             elif operations == 3:
-                results = FractionMultiplication.checking_results(numbers, numerator, denominator)
+                results = FractionMultiplication.checking_results(numbers, numerator, denominator, operations)
             else:
-                results = FractionDivision.checking_results(numbers, numerator, denominator)
+                results = FractionDivision.checking_results(numbers, numerator, denominator, operations)
         else:
             results = Operation.checking_results(numbers, answers, operations)
 
