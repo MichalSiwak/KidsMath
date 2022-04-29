@@ -1,0 +1,1 @@
+web: gunicorn KidsMath.wsgi --log-file -
