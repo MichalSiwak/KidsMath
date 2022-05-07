@@ -18,10 +18,23 @@
                                         <div class="table has-background-grey-light">
                                             <div class="content">
 
-                                                <div class="columns">
-<button>to tu</button>
-                                                </div>
 
+                                                {% for operation in operations %}
+                                                <div class="columns">
+
+                                                        {{ operation }}
+
+                       <p>
+                           <input class="form-control" type="text" name="results" style="width: 2em;">
+                           <br>
+                           <input class="form-control" type="number" name="results" style="width: 2em;">
+                       </p>
+
+                                                </div>
+                                                {% endfor %}
+
+
+                                                        <button type="submit">Sprawdź</button>
                                             </div>
                                         </div>
                                     </div>

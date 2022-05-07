@@ -4,8 +4,8 @@
 {% block content %}
 
 <form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {% load static %}
+    {% csrf_token %}
+    {% load static %}
     <div class="container ">
         <div class="container ">
             <div class="columns">
@@ -17,21 +17,56 @@
                                     <div class="container ">
                                         <div class="table has-background-grey-light">
                                             <div class="content">
-                                                <p>Tu będą informacje o aplikacji.</p>
-
-                                                {% if user.is_authenticated %}
-                                                {% if not user_name.parent %}
-                                                Dziecko!!
 
                                                 <div class="columns">
-                                                            <div class="column is-half">
-                                                                <a class="button is-black is-small" href="/category_choice">Do gry</a>
-                                                            </div>
-                                                        </div>
 
-                                                {% endif %}
-                                                {% endif %}
+<table class="$table-foot-cell-color">
+    <tr>
+        <td>Kategoria: </td>
 
+        <td>
+            {{ form.as_p }}
+        </td>
+
+    </tr>
+        <tr>
+        <td>Zakres: </td>
+            <td></td>
+
+    </tr>
+        <tr>
+        <td>od: <input class="input is-primary" type="number" value="1" name="from"></td>
+        <td>do: <input class="input is-primary" type="number" value="10" name="to"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><button class="button is-black" type="submit">Zatwierdź</button></td>
+    </tr>
+
+<!--    <tr>-->
+               {% if messages %}
+    <tr><td>
+        <div class="container">
+            <article class="message">
+                {% for message in messages %}
+                <div class="message-body">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </article>
+        </div>
+        {% endif %}
+        </td></tr>
+<!--    </tr>-->
+<!--<tr>-->
+<!--    <td>-->
+<!--    lkjhgfdfghj-->
+<!--    </td>-->
+<!--</tr>-->
+</table>
+
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -55,5 +90,4 @@
         </div>
     </div>
 </form>
-
 {% endblock %}
